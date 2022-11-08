@@ -1,8 +1,25 @@
 #include <iostream>
 typedef void *(* callback)(void *, void *);
+/*
+ * enum
+ *
+ * headwer
+ *
+ * */
+
+enum enum_tipo{
+    line,
+    tab,
+    reftab,
+    header,
+    refheader,
+    root
+};
+
+
 struct lista {
     void * info;
-
+    enum_tipo tab;
     lista *next = nullptr;
 
     lista *before = nullptr;
@@ -90,6 +107,41 @@ struct lista {
 
     }
 
+    void removeSelf(void *f(void *) = nullptr){
+        std::cout << "???95";
+        if(this->next){
+            this->next->before = this->before;
+        }
+
+        if(this->before){
+            this->before->next = this->next;
+        }
+
+        if(f!= nullptr){
+            std::cout << "AAAAAaaa" << std::endl;
+            f(this);
+        }/*
+*/
+        //delete this;
+
+    }
+
+    void removeChild(lista  *l, void *f(void *) = nullptr){
+        std::cout << "???1122";
+        if(this->first == l){
+            this->first = l->next;
+        }
+
+        if(this->last == l){
+            this->last = l->before;
+        }
+        std::cout << "???119";
+
+
+        l->removeSelf(f);
+
+
+    }
 };
 
 lista * searchBranchByName(lista *db, std::string branchName);
@@ -108,9 +160,10 @@ struct BranchInfo{
                     std::cout <<"Lista Referenciada Não encontrada" << std::endl;
                     break ;//TODO tratar delete
                 } else {
-                    std::cout << "ReferencedBranch " << referencedBranch << " "<< static_cast<BranchInfo *>(referencedBranch->info)->name << std::endl;
                     auto addfield= new std::string { fields[i] };
+
                     this->fields.pushBack(new lista {addfield});
+                    std::cout << *static_cast<std::string *>(this->fields.last->info) << std::endl;
                     this->fields.last->pushBack(new lista {&(static_cast<BranchInfo *>(referencedBranch->info)->fields)});
                     continue;
                 }
@@ -129,27 +182,22 @@ struct querydata{
     int fieldIndice;
     std::string query;
 };
-void * printStringList(void *item, void *nada= nullptr){
-    std::cout << *(static_cast<std::string *>(static_cast<lista *>(item)->info));
-    return nullptr;
+
+lista *createHeader(){
+    auto header = new lista{};
 }
 
 lista * createDB(){
         return new lista;
 }
 
-void addLineHeader( lista  * table,std::string fields[], int length){
-    auto nl = new lista;
-    for (int i = 0; i < length; ++i) {
-        nl->info = new std::string { fields[i] };
-    }
-}
 void addTable(lista *db, std::string nameTable, std::string fields[], int length){
     if(fields != nullptr) {
 
 
         auto *table = new lista;
         table->info = new BranchInfo(db, nameTable, fields, length);
+        std::cout << *static_cast<std::string *>(static_cast<BranchInfo *>(table->info)->fields.last->info) << " Binfonew"<<std::endl;
         db->pushBack(table);
 
         delete[] fields;
@@ -294,7 +342,7 @@ void addLine(lista *db, lista *table, int id = 0){
     }
 
 }
-//void printList(lista *fields, lista *item);
+
 void * addReference(lista *root, lista *list, lista *pointer){
 
     //Verifica se a tabela a referenciar existe
@@ -321,10 +369,10 @@ int searchField(lista *field, std::string FIELD){
 
         int address = 0;
         for (lista * i = field->first; i != nullptr ; i = i->next) {
-
             if(*static_cast<std::string *>(i->info) == FIELD){
                 return address;
             }
+            std::cout <<*static_cast<std::string *>(i->info) << " Fields "<< *static_cast<std::string *>(field->last->info)<< std::endl;
             address++;
         }
         return -1;
@@ -340,7 +388,8 @@ void * printList(void *itemv, void *fieldsv){
 
     auto item = static_cast<lista *>(itemv);
     auto fields = static_cast<lista *>(fieldsv);
-    if(!item->first){
+
+    if(!item->first){//Lista Referenciadora
         printList(item->info, fieldsv);
         return nullptr;
     }
@@ -351,20 +400,15 @@ void * printList(void *itemv, void *fieldsv){
     auto fieldItem = fields->first->next;
     for (auto i = item->first; i != nullptr; i=i->next) {
 
-
-
         switch ((*static_cast<std::string *>(fieldItem->info))[0]) {
             case '#':{
                 std::cout << "\""<<*static_cast<std::string *>(fieldItem->info) << "\":";
                 printList(static_cast<lista *>(static_cast<lista *>(i)->info), static_cast<lista *>(fieldItem->first->info));
-
                 break;
             }
             case '$':{
                 std::cout << "\""<<*static_cast<std::string *>(fieldItem->info) << "\":";
                 static_cast<lista *>(i)->callback(printList, &static_cast<BranchInfo *>(i->info)->fields);
-
-                std::cout << "ignoring" << std::endl;
                 break ;
             }
 
@@ -384,8 +428,10 @@ void * search(void *listav, void *datav){
     auto list = static_cast<lista *>(listav);
     auto data = static_cast<querydata *>(datav);
 
+
     if(data->fieldIndice == 0){
         if(*static_cast<int *>(list->info) == std::stoi(data->query)){
+
             return list;
         } else {
             return nullptr;
@@ -397,8 +443,10 @@ void * search(void *listav, void *datav){
     }
 
     //std::cout << *static_cast<std::string *>(item->info) << ":" << data->query << std::endl;
-    if(*static_cast<std::string *>(item->info) == data->query){
 
+
+    if(*static_cast<std::string *>(item->info) == data->query){
+        std::cout << "Teste" << *static_cast<std::string *>(item->info) << std::endl;
         return list;
     }
 
@@ -411,11 +459,13 @@ void * search(void *listav, void *datav){
 void * searchLists(void *Listv){
     if(Listv){
         auto list = static_cast<lista *>(Listv);
-        auto result = new lista;
+        auto result = new lista{list->info};
 
-        result->info = list->info;
+
         std::string F;
         std::cin >> F;
+
+        std::cout << *static_cast<std::string *>(static_cast<BranchInfo *>(list->info)->fields.last->info) << std::endl;
         int index = searchField(&(static_cast<BranchInfo *>(list->info)->fields), F);
         std::cout << "Coluna " << index <<" " << F<<std::endl;
         if(index >= 0){
@@ -476,7 +526,9 @@ int main(){
     addTable(db, "CURSO",  new std::string[] {"ID", "NOME"}, 2);
     addTable(db, "PROFESSOR",  new std::string[] {"ID", "NOME"}, 2);
     addTable(db, "DISCIPLINA",  new std::string[] {"ID", "NOME", "#CURSO"}, 3);
-    addTable(db, "ALUNO",  new std::string[] {"ID", "NOME", "#CURSO"}, 2);
+    addTable(db, "ALUNO",  new std::string[] {"ID", "NOME", "#CURSO"}, 3);
+    std::cout << *static_cast<std::string *>(static_cast<BranchInfo *>(searchBranchByName(db, "ALUNO")->info)->fields.last->info) << std::endl;
+
     addTable(db, "TURMA",  new std::string[] {"ID", "NOME", "#PROFESSOR", "#DISCIPLINA", "$ALUNO"}, 5);
 
 
@@ -492,33 +544,34 @@ int main(){
     addLine(db, searchBranchByName(db, "TURMA"));
     addLine(db, searchBranchByName(db, "ALUNO"));
 
+
     //std::cout << searchBranchByName(db, "ALUNO")->info << std::endl;
 
 
 
     //addLine(db,searchBranchByName(db, "TURMA")->first->next->next)
-    std::cout << "Printando lista de listas" << std::endl;
+    ///std::cout << "Printando lista de listas" << std::endl;
     //printList(&static_cast<BranchInfo *>(db->first->next->next->info)->fields, db->first->next->next->first);
-    searchBranchByName(db, "DISCIPLINA")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "DISCIPLINA")->info)->fields);
+    //searchBranchByName(db, "DISCIPLINA")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "DISCIPLINA")->info)->fields);
     std::cout << std::endl << std::endl << std::endl;
     searchBranchByName(db, "TURMA")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "TURMA")->info)->fields);
 
     std::cout << searchField(&static_cast<BranchInfo *>(searchBranchByName(db, "TURMA")->info)->fields, "#PROFESSOR") << std::endl;
-    std::cout << "busca";
+
+    //addResult(r, (searchBranchByName(db, "ALUNO")->first->first->next->next->next));
+    std::cout << "busca" << std::endl;
+
+    auto r2 = searchLists(searchBranchByName(db, "ALUNO"));
     auto r = searchLists(searchBranchByName(db, "ALUNO"));
-
-    addResult(r, (searchBranchByName(db, "TURMA")->first->first->next->next->next));
-
-    std::cout << "Aqui" << std::endl;
-
-    std::cout << static_cast<lista *>(r)->first->info << std::endl;
-    std::cout << searchBranchByName(db, "ALUNO")->first << std::endl;
-    std::cout << searchBranchByName(db, "TURMA")->first->first->next->next->next->first << std::endl;
-
-    //static_cast<lista *>(r)->callback(printList,&static_cast<BranchInfo *>(static_cast<lista *>(r)->info)->fields );
+    static_cast<lista *>(r)->callback(printList,&static_cast<BranchInfo *>(static_cast<lista *>(r)->info)->fields );
     //printList(static_cast<lista *>(r)->first, &static_cast<BranchInfo *>(static_cast<lista *>(r)->info)->fields);
 
-    searchBranchByName(db, "TURMA")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "TURMA")->info)->fields);
+    //searchBranchByName(db, "TURMA")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "TURMA")->info)->fields);
+
+
+    //searchBranchByName(db, "CURSO")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "CURSO")->info)->fields);
+    //searchBranchByName(db, "CURSO")->removeChild(searchBranchByName(db, "CURSO")->first, nullptr);
+    //searchBranchByName(db, "CURSO")->callback(printList, &static_cast<BranchInfo *>(searchBranchByName(db, "CURSO")->info)->fields);
 
     delete db->first;
     delete db;
