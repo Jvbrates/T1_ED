@@ -275,6 +275,7 @@ struct querydata{
     lista * resultado;
     std::string query;
     std::string field;
+    enum_tipo tipo_field;
 };
 
 lista * createDB(){
@@ -521,7 +522,7 @@ void * printList(void *itemv, void *fieldsv){
             }
             case headerrefbranch:
             case headerrefid:{
-                printBranch(i);
+                //printBranch(i);
                 //std::cout <<"}";
                 std::cout << std::endl;
                 break ;
@@ -561,7 +562,14 @@ void * search(void *listav, void *datav){
     }
 
     lista * compar = list->first;
+    if(data->fieldIndice == 0){
+        std::cout << "Pesquisando por ID" << std::endl;
+        if(std::stoi(data->query) == *static_cast<int *>(list->info)){
+            data->resultado->pushBack(new lista {list, refline});
+        }
 
+        return nullptr;
+    }
     for(int i = 0; i< (data->fieldIndice)-1; i++) {
         if (!(compar->next)) {
             break;
@@ -582,8 +590,9 @@ void * search(void *listav, void *datav){
         }
         case refbranch:{
             if(compar->last == nullptr){
-                std::cout << "Refbranch para id "<< data->query << " " << data->field;
+                std::cout << "Refbranch para id  id"<< std::endl << data->query << " " << data->field;
 
+                auxiliotipo(compar->info);
                 auto buscaid = new lista {nullptr, refbranch};
                 searchLists(compar, buscaid, data->query, data->field);
                 if(buscaid->first){
@@ -593,7 +602,16 @@ void * search(void *listav, void *datav){
                 return nullptr;
             }
 
-            //searchLists(compar, data->resultado);
+            auto buscaid = new lista {nullptr, refbranch};
+            std::cout << "Buscaaaaaaaaaaaaaaaa" << std::endl;
+            searchLists(compar, data->resultado, data->query, data->field);
+            //data->resultado->pushBack(new lista {buscaid, refline});
+            data->resultado->info = buscaid->info;
+            std::cout << "607" << std::endl;
+            printBranch(data->resultado);
+            //data->resultado->tipo = refbranch;
+            //printBranch(buscaid);
+
             std::cout << "Não deve chegar aqui por enquanto" << std::endl;
             return nullptr;
         }
@@ -661,6 +679,7 @@ void * searchLists(void *Listv, lista *r, std::string que = {'\0'}, std::string 
 
                     break;
                 }
+                case headerrefbranch:
                 case headerrefid:{
                     std::cout << "Ainda Não Implementado ID" << std::endl;
                     std::string query;
@@ -681,18 +700,19 @@ void * searchLists(void *Listv, lista *r, std::string que = {'\0'}, std::string 
                     querydata q {index, r};
                     q.query = query;
                     q.field = field2;
+                    q.tipo_field = field->tipo;
 
-                    list->callback(search, &q);
+                            list->callback(search, &q);
                     //auxiliotipo(list->first->first->next);
                     return nullptr;
                     break ;
                 }
-                case headerrefbranch:{
+                /*case headerrefbranch:{
                     std::cout << "Ainda não implementado " << std::endl;
                     return nullptr;
                     break ;
                 }
-
+*/
                 default: {
                     return nullptr;
                 }
@@ -744,7 +764,7 @@ void * deleteSelfinBranch(void *void_pt, void *void_base){
 
     if(r){
         auxiliotipo(base);
-        printBranch(base);
+        //printBranch(base);
         std::cout << base->first->info  << " " << r << std::endl;
         std::cout << base->last->info  << " " << r << std::endl;
 
@@ -752,7 +772,7 @@ void * deleteSelfinBranch(void *void_pt, void *void_base){
         base->removeChild(r);
         std::cout << base->first;
         std::cout << base->first->next;
-        printBranch(base);
+        //printBranch(base);
         std::cout << "Removendo" << std::endl;
     }
 
@@ -770,7 +790,7 @@ void * deleteSelfinBranchRef(void *void_pt, void *void_base){
 
 
     auxiliotipo(static_cast<lista *>(pt)->info);
-    printBranch(base);
+    //printBranch(base);
     for(auto item = base->first; item!= nullptr; item=item->next){
         std::cout <<  pt->info << "=_=" << static_cast<lista *>(item->info)->info << std::endl;
         if(pt->info == item->info){
@@ -954,7 +974,7 @@ int main(){
     std::cout << std::endl;
 
 
-    printBranch(db->last);
+    //printBranch(db->last);
     auto  r = new lista {nullptr, refbranch};
     auto  r2 = new lista {nullptr, refbranch};
     auto  r3 = new lista {nullptr, refbranch};
@@ -962,63 +982,35 @@ int main(){
     searchLists(searchBranchByName(db, "ALUNO"), r);
     searchLists(searchBranchByName(db, "TURMA"), r2);
 
-    printBranch(r);
-    printBranch(r2);
+    //printBranch(r);
+    //printBranch(r2);
 
     mergeRefBranch(r2, r);
     //mergeListaContida(r2, r);
-    printBranch(r2);
+    //printBranch(r2);
     searchLists(searchBranchByName(db, "ALUNO"), r3);
+    searchLists(searchBranchByName(db, "ALUNO"), r3);
+    std::cout << "987||||||_____|||||" << std::endl;
     printBranch(r3);
+
 
     deleteLists(r2, r3);
 
     //printBranch(searchBranchByName(db, "TURMA"));
-    printBranch(r2);
-
-    /*
-    std::cout << "buscando Fis em CURSO" << std::endl;
-
-    searchLists(db->first, r);
-    std::cout << std::endl <<"Resultado:" << std::endl;
-    printBranch(r);
-
-    std::cout << std::endl <<"Testes com busca em lista ref" << std::endl;
-    auxiliotipo(r->last);
-    searchLists(r, r2);
-    std::cout << std::endl <<"Saida R2" << std::endl;
-    printBranch(r2);
-
-
-    std::cout << "Antes de deletar" << std::endl;
-    printBranch(db->first);
-
-
-    //deleteLists(db->first, r);
-
-    std::cout << "Depois de deletar" << std::endl;
-    printBranch(db->first);
-
-    searchLists(db->last, r3);
-
-    printBranch(r3);
-    std::cout << *static_cast<std::string *>(static_cast<lista *>(db->last->info)->last->info) << std::endl;
+    //printBranch(r2);
 
     delete r2;
+    auto r4 = new lista {nullptr, refbranch};
 
-    searchLists(db->last->before, r2);
+    searchLists(searchBranchByName(db, "TURMA"), r2);
 
+    printBranch(searchBranchByName(db, "TURMA"));
+    searchLists(searchBranchByName(db, "TURMA"), r4);
+    //printBranch(static_cast<lista *>(r4->first->info));
 
-    auxiliotipo(db->last->first->last);
-    mergeRefBranch(db->last->first->last, r2);
-    //printBranch(db->last->first->last);
-
-
-    mergeRefBranch(r3, r2);
-
-
-    printBranch(db->last);
-*/
+    //auxiliotipo(r->first);
+    //auxiliotipo(r4->first);
+    //printBranch(r4);
 
     delete db->first;
     delete db;
