@@ -55,24 +55,27 @@ ex.:
   >SEARCH S2 ALUNO #CURSO ID 1
   
   
-### VIEW [NOME DA LISTA]:
+### VIEW:
 Para visualizar uma lista, usa-se o comando VIEW seguido do nome da tabela (ex.: VIEW CURSO)
 ![image](https://user-images.githubusercontent.com/50972168/201408934-757f6f09-6aa3-4883-bd19-18b54460a88c.png)
 
 O mesmo comando pode ser utilizado para visualizar S1 e S2:
 exemplo de VIEW dos comandos de busca realizados acima:.
 - > VIEW S1  
+
 ![image](https://user-images.githubusercontent.com/50972168/201416522-f5ab658e-2b8a-43cf-8485-bbd0884bd51a.png)
 
 
 - > VIEW S2 
+
 ![image](https://user-images.githubusercontent.com/50972168/201416392-c26a1920-d15b-4d9e-828d-3281309a1ade.png)
 
 
 ### MERGE:
 Caso queira-se adicionar alunos à uma ou mais turmas, faz-se uma buscar por turmas e outra por alunos e usá-se o comando merge, considerando os comandos realizados acima:  
 > MERGE S1 S2  
-Irá adicionar todos os alunos de S2 nas turmas que estão em S1;
+
+Irá adicionar todos os alunos de S2 nas turmas que estão em S1;  
 ![image](https://user-images.githubusercontent.com/50972168/201417170-536461ef-7334-4d69-838b-3fbffb22a11b.png)
 
 
@@ -80,23 +83,23 @@ Irá adicionar todos os alunos de S2 nas turmas que estão em S1;
 Levando em consideração os comandos anteriores, caso queira-se reverter o ultimo comando, ou seja, excluir o aluno da turma, usamos o comando DELETE:  
 > DELETE S1 S2  
 
-O comando delete pode ser usado também para deletar itens de listas:
+O comando delete pode ser usado também para deletar itens de listas:  
+
 > SEARCH S2 DISCIPLINA NOME CALCULO
 > DELETE DISCIPLINA S2
 > VIEW DISCIPLINA
-![image](https://user-images.githubusercontent.com/50972168/201421655-73b0e1b1-1e78-462a-8bee-2390ff89e106.png)
+
+![image](https://user-images.githubusercontent.com/50972168/201425858-5f641270-8539-40b0-921b-dc09101c42ff.png)
 ![image](https://user-images.githubusercontent.com/50972168/201422433-e1b87e08-4890-4413-a0b9-bfab43922d8e.png)
 
 ### EXIT:
-O comando EXIT exclui todas as da base recursivamente e depois excluis as listas/registradores S1 e S1. E então, encerra o programa;
+O comando EXIT exclui todas as da base recursivamente e depois excluis as listas/registradores S1 e S1. E então, encerra o programa;  
 
-O arquivo entrada preenche as informações e executa os códigos explicados acima;
+O arquivo entrada preenche as informações e executa os códigos explicados acima;  
 
 Criação das listas:  
 ![image](https://user-images.githubusercontent.com/50972168/201425061-091517ed-2074-4f85-9340-ed4bb988c79b.png)
 
 
-OBS: O programa, por enquanto(e para sempre), não aceita entradas com espaço.
-Criação das listas(# indica referencia a outra linha e $ indica uma lista de referencia a outras linhas);
-
-  
+OBS: O programa, por enquanto(e para sempre), não aceita entradas com espaço.  
+Criação das listas(# indica referencia a outra linha e $ indica uma lista de referencia a outras linhas);  
