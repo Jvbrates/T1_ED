@@ -1,0 +1,351 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DISCIPLINA: {
+	{
+	"ID":1
+	"NOME":"ESTRUTURA_DE_DADOS"
+
+	CURSO: {
+		{
+		"ID":1
+		"NOME":"CIENCIA_DA_COMPUTACAO"
+		}
+}
+	}
+	{
+	"ID":2
+	"NOME":"CALCULO"
+
+	CURSO: {
+		{
+		"ID":3
+		"NOME":"MATEMATICA"
+		}
+}
+	}
+	{
+	"ID":3
+	"NOME":"CIRCUITOS_DIG"
+
+	CURSO: {
+		{
+		"ID":2
+		"NOME":"ENGENHARIA_DA_COMPUTACAO"
+		}
+}
+	}
+}
+Deletando RefBranch 
+
+DISCIPLINA: {
+	{
+	"ID":1
+	"NOME":"ESTRUTURA_DE_DADOS"
+
+	CURSO: {
+		{
+		"ID":1
+		"NOME":"CIENCIA_DA_COMPUTACAO"
+		}
+}
+	}
+}
+DISCIPLINA: {
+}
+DISCIPLINA: {
+}
+Deletando RefBranch 
+
+CURSO: {
+	{
+	"ID":1
+	"NOME":"CIENCIA_DA_COMPUTACAO"
+	}
+}
+CURSO: {
+}
+CURSO: {
+}
+
+TURMA: {
+	{
+	"ID":1
+	"NOME":"T1"
+
+	PROFESSOR: {
+		{
+		"ID":1
+		"NOME":"Prof_Fulano"
+		}
+}
+
+	DISCIPLINA: {
+		{
+		"ID":1
+		"NOME":"ESTRUTURA_DE_DADOS"
+
+		CURSO: {
+			{
+			"ID":1
+			"NOME":"CIENCIA_DA_COMPUTACAO"
+			}
+}
+		}
+}
+
+	ALUNO: {
+}
+	}
+}
+
+ALUNO: {
+	{
+	"ID":1
+	"NOME":"FULANO"
+
+	CURSO: {
+		{
+		"ID":1
+		"NOME":"CIENCIA_DA_COMPUTACAO"
+		}
+}
+	}
+}
+Listas Compativeis
+
+TURMA: {
+	{
+	"ID":1
+	"NOME":"T1"
+
+	PROFESSOR: {
+		{
+		"ID":1
+		"NOME":"Prof_Fulano"
+		}
+}
+
+	DISCIPLINA: {
+		{
+		"ID":1
+		"NOME":"ESTRUTURA_DE_DADOS"
+
+		CURSO: {
+			{
+			"ID":1
+			"NOME":"CIENCIA_DA_COMPUTACAO"
+			}
+}
+		}
+}
+
+	ALUNO: {
+		{
+		"ID":1
+		"NOME":"FULANO"
+
+		CURSO: {
+			{
+			"ID":1
+			"NOME":"CIENCIA_DA_COMPUTACAO"
+			}
+}
+		}
+}
+	}
+}
+Deletando Refline0
+Deletando RefBranch 
+
+DISCIPLINA: {
+	{
+	"ID":2
+	"NOME":"CALCULO"
+
+	CURSO: {
+		{
+		"ID":3
+		"NOME":"MATEMATICA"
+		}
+}
+	}
+}
+Deletando line id 2
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+
+
+DISCIPLINA: {
+	{
+	"ID":1
+	"NOME":"ESTRUTURA_DE_DADOS"
+
+	CURSO: {
+		{
+		"ID":1
+		"NOME":"CIENCIA_DA_COMPUTACAO"
+		}
+}
+	}
+	{
+	"ID":3
+	"NOME":"CIRCUITOS_DIG"
+
+	CURSO: {
+		{
+		"ID":2
+		"NOME":"ENGENHARIA_DA_COMPUTACAO"
+		}
+}
+	}
+}
+Deletando Refline0
+Deletando RefBranch 
+Deletando Refline0
+Deletando RefBranch 
+Deletando o root
+Tipo info da  branch: 
+HeaderBranch
+Deletando o nome da Header de cada lista
+
+Deletando Itens da Header de cada lista
+Deletando str na headerstr 
+Deletando str na headerstr 
+Deletando a propria HEADER
+
+Deletando suas sub-listas/linhas
+Deletando line id 1
+Deletando str 
+Deletando line id 2
+Deletando str 
+Deletando line id 3
+Deletando str 
+Deletando a propria branch
+
+Tipo info da  branch: 
+HeaderBranch
+Deletando o nome da Header de cada lista
+
+Deletando Itens da Header de cada lista
+Deletando str na headerstr 
+Deletando str na headerstr 
+Deletando a propria HEADER
+
+Deletando suas sub-listas/linhas
+Deletando line id 1
+Deletando str 
+Deletando line id 2
+Deletando str 
+Deletando line id 3
+Deletando str 
+Deletando a propria branch
+
+Tipo info da  branch: 
+HeaderBranch
+Deletando o nome da Header de cada lista
+
+Deletando Itens da Header de cada lista
+Deletando str na headerstr 
+Deletando str na headerstr 
+Headerfid
+Deletando string #CURSO
+deletando a propria Headerfid
+Deletando a propria HEADER
+
+Deletando suas sub-listas/linhas
+Deletando line id 1
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando line id 3
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando a propria branch
+
+Tipo info da  branch: 
+HeaderBranch
+Deletando o nome da Header de cada lista
+
+Deletando Itens da Header de cada lista
+Deletando str na headerstr 
+Deletando str na headerstr 
+Headerfid
+Deletando string #CURSO
+deletando a propria Headerfid
+Deletando a propria HEADER
+
+Deletando suas sub-listas/linhas
+Deletando line id 1
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando line id 2
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando line id 3
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando a propria branch
+
+Tipo info da  branch: 
+HeaderBranch
+Deletando o nome da Header de cada lista
+
+Deletando Itens da Header de cada lista
+Deletando str na headerstr 
+Deletando str na headerstr 
+Headerfid
+Deletando string #PROFESSOR
+deletando a propria Headerfid
+Headerfid
+Deletando string #DISCIPLINA
+deletando a propria Headerfid
+headerrefbranch$ALUNO
+Deletando header $ALUNO
+Deletando a headerRefBranch
+Deletando a propria HEADER
+
+Deletando suas sub-listas/linhas
+Deletando line id 1
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando Refline0
+Deletando RefBranch 
+Deletando Refline0
+Deletando RefBranch 
+Deletando line id 2
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando Refline0
+Deletando RefBranch 
+Deletando RefBranch 
+Deletando line id 3
+Deletando str 
+Deletando Refline0
+Deletando RefBranch 
+Deletando Refline0
+Deletando RefBranch 
+Deletando RefBranch 
+Deletando a propria branch
+
