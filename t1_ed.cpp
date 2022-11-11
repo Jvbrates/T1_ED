@@ -183,7 +183,6 @@ lista *header(lista *db, std::string name, std::string fields[], int length){
                             new std::string{fields[i]},
                             headerrefbranch
                     });
-                    std::cout << "RefencBranchHeader";
 
 
                 }else{
@@ -209,13 +208,13 @@ lista *header(lista *db, std::string name, std::string fields[], int length){
                 break ;
             }
             default: {
-                std::cout << fields[i] <<std::endl;
                 header->pushBack(new lista{new std::string{fields[i]}, headerstr});
                 break;
             }
         }
     }
 
+    if(erro){std::cout << "Algo de errado" << std::endl;}
     return header;
 }
 
@@ -291,18 +290,14 @@ void * searchPointer(void *itemv, void *pointerv){
     auto item = static_cast<lista *>(itemv);
 
     if(item && item->tipo == refline){
-        std::cout << "Isto deveria acontecer" << std::endl;
         if(item->info == pointerv){
-            std::cout << "Iguais" << std::endl;
             return item;
         }
         return searchPointer(item->info, pointerv);
 
     }
     auto pointer = static_cast<lista *>(pointerv);
-    std::cout << item << " == " << pointer << std::endl;
     if(item == pointer){
-        std::cout << "Iguais" << std::endl;
         return item;
     }
     return nullptr;
@@ -325,7 +320,6 @@ void addLine(lista *db, lista *branchi, int id = 0){
     //Verifica se o ID Já existe, caso sim, trata como erro
     if(searchIdinBranch( db, *static_cast<std::string *>(static_cast<lista *>(branchi->info)->info), id ) != nullptr){
         erro = true;
-        std::cout << "ERRO: : ID já consta na base de dados" << std::endl;
     }
     else {
 
@@ -343,7 +337,6 @@ void addLine(lista *db, lista *branchi, int id = 0){
 
                     int foreing;
                     std::cin >> foreing;
-                    std::cout << foreing;
 
                     lista *pt = searchIdinBranch(db, stringF.substr(1), foreing);//Verifica se o ID inserido existe na tabela
 
@@ -369,7 +362,6 @@ void addLine(lista *db, lista *branchi, int id = 0){
                             static_cast<lista *>(searchBranchByName(db, stringF.substr(1))->info),
                             refbranch};
 
-                    //std::cout << "Field address AAAAA" << searchBranchByName(db, stringF.substr(1)) << std::endl;
                     newBranch->pushBack(lista_contida);
                     break;
                 }
@@ -456,7 +448,6 @@ void * printList(void *itemv, void *fieldsv){
             case headerrefbranch:
             case headerrefid:{
                 printBranch(i);
-                //std::cout <<"}";
                 std::cout << std::endl;
                 break ;
             }
@@ -495,14 +486,12 @@ void * search(void *listav, void *datav){
     auto list = static_cast<lista *>(listav);
     auto data = static_cast<querydata *>(datav);
     if(list->tipo == refline){
-        std::cout << "???" << std::endl;
         search(list->info, data);
         return nullptr;
     }
 
     lista * compar = list->first;
     if(data->fieldIndice == 0){
-        std::cout << "Pesquisando por ID" << std::endl;
         if(std::stoi(data->query) == *static_cast<int *>(list->info)){
             data->resultado->pushBack(new lista {list, refline});
         }
@@ -532,22 +521,13 @@ void * search(void *listav, void *datav){
                 searchLists(compar, buscaid, data->query, data->field);
                 if(buscaid->first){
                     data->resultado->pushBack(new lista {list, refline});
-                    std::cout << "Adding";
                 }
                 return nullptr;
             }
 
 
-            std::cout << "Buscaaaaaaaaaaaaaaaa" << std::endl;
             searchLists(compar, data->resultado, data->query, data->field);
-            //data->resultado->pushBack(new lista {buscaid, refline});
-            //data->resultado->info = buscaid->info;
-            std::cout << "607" << std::endl;
-            //printBranch(data->resultado);
-            //data->resultado->tipo = refbranch;
-            //printBranch(buscaid);
 
-            std::cout << "Não deve chegar aqui por enquanto" << std::endl;
             return nullptr;
         }
 
@@ -579,15 +559,11 @@ void * searchLists(void *Listv, lista *r, std::string que = {'\0'}, std::string 
 
         r->info = list->info;
         int index = searchField(static_cast<lista *>(list->info), F);
-        std::cout << "Coluna_ " << index <<" " << F<<std::endl;
-
 
         auto field = static_cast<lista *>(list->info)->first;
         for (auto i = 0; i < index; ++i) {
             field= field->next;
         }
-        std::cout << "Field_ " << *static_cast<std::string *>(field->info) << " = " <<  F << std::endl;
-        //auxiliotipo(field);
 
         if(index >= 0){
 
@@ -596,29 +572,23 @@ void * searchLists(void *Listv, lista *r, std::string que = {'\0'}, std::string 
                     r->info = list->info;
                     std::string query;
                     if(que[0] == '\0') {
-                        std::cout << "Query___:";
                         std::cin >> query;
-                        std::cout << query;
                     }else {
                         query = que;
-                        std::cout << "poupou 3 vezes?:";
 
                     }
 
 
                     querydata q {index, r};
                     q.query = query;
-                    std::cout << "Antes da busca" << std::endl;
-                    printBranch(list);
+                    //printBranch(list);
                     list->callback(search, &q);
-                    std::cout << "Depois da busca" << std::endl;
 
                     printBranch( q.resultado);
                     break;
                 }
                 case headerrefbranch:
                 case headerrefid:{
-                    std::cout << "Ainda Não Implementado ID" << std::endl;
                     std::string query;
                     std::string field2;
 
@@ -715,7 +685,6 @@ void * deleteLists(lista *base, lista *values);
 
 void * deleteListsRef(lista *base, lista *values){
 
-    std::cout << "Terminou  Aqui" << std::endl;
     values->callback(deleteSelfinBranchRef, base);
     return nullptr;
 }
@@ -738,15 +707,11 @@ void * mergeDelete(void *v_recep_list, void *vo_del){
 
 void * deleteLists(lista *base, lista *values){
 
-    //std::cout << base->info << "___" << values->info;
     if(values->tipo != refbranch){
         std::cout << "A lista com os valores a serem deletados necessita ser uma lista de referencias a lista base";
         return nullptr;
     }
     if(values->info != base->info){//TODO aqui pode mudar
-        std::cout << *static_cast<std::string *>(static_cast<lista *>(base->info)->info) << std::endl;
-        std::cout << *static_cast<std::string *>(static_cast<lista *>(values->info)->info) << std::endl;
-
 
         int search = searchField(static_cast<lista *>(base->info), "$"+(*static_cast<std::string *>(static_cast<lista *>(values->info)->info)));
 
@@ -760,7 +725,6 @@ void * deleteLists(lista *base, lista *values){
             std::cout << "Listas Incompativeis";
         }
 
-        //std::cout << "Listas Incompativeis" << std::endl;
         return nullptr;
     }
 
@@ -795,7 +759,7 @@ void * compareadd(void *void_ins_item, void *void_rec){
 
     if(!r){
         rec->pushBack(new lista{ins_item->info, refline});
-        std::cout << rec->callback(searchPointer, ins_item);
+        rec->callback(searchPointer, ins_item);
     }
     return nullptr;
 }
@@ -806,10 +770,7 @@ void * mergeRefBranch(void * void_receptor, void * void_insert){
 
     if(insert->info != receptor->info){
 
-        std::cout << *static_cast<std::string *>(static_cast<lista *>(insert->info)->info) << std::endl;
-        std::cout << *static_cast<std::string *>(static_cast<lista *>(receptor->info)->info) << std::endl;
         int search = searchField(static_cast<lista *>(receptor->info), "$"+(*static_cast<std::string *>(static_cast<lista *>(insert->info)->info)));
-
         if(search != -1){
             mergeAux m {
                     search,
@@ -1177,7 +1138,6 @@ int main(){
 
 
             deleteRecursive(s1);
-            printBranch(s2);
             deleteRecursive(s2);
             deleteRecursive(db);
 
