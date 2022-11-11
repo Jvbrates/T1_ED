@@ -85,9 +85,9 @@ Levando em consideração os comandos anteriores, caso queira-se reverter o ulti
 
 O comando delete pode ser usado também para deletar itens de listas:  
 
-> SEARCH S2 DISCIPLINA NOME CALCULO
-> DELETE DISCIPLINA S2
-> VIEW DISCIPLINA
+> SEARCH S2 DISCIPLINA NOME CALCULO  
+> DELETE DISCIPLINA S2  
+> VIEW DISCIPLINA  
 
 ![image](https://user-images.githubusercontent.com/50972168/201425858-5f641270-8539-40b0-921b-dc09101c42ff.png)
 ![image](https://user-images.githubusercontent.com/50972168/201422433-e1b87e08-4890-4413-a0b9-bfab43922d8e.png)
@@ -95,11 +95,14 @@ O comando delete pode ser usado também para deletar itens de listas:
 ### EXIT:
 O comando EXIT exclui todas as da base recursivamente e depois excluis as listas/registradores S1 e S1. E então, encerra o programa;  
 
+---------------------------
+
 O arquivo entrada preenche as informações e executa os códigos explicados acima;  
 
 Criação das listas:  
+(# indica referencia a outra linha e $ indica uma lista de referencia a outras linhas);  
 ![image](https://user-images.githubusercontent.com/50972168/201425061-091517ed-2074-4f85-9340-ed4bb988c79b.png)
 
 
 OBS: O programa, por enquanto(e para sempre), não aceita entradas com espaço.  
-Criação das listas(# indica referencia a outra linha e $ indica uma lista de referencia a outras linhas);  
+
